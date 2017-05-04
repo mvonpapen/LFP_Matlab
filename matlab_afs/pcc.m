@@ -5,7 +5,7 @@ function [Pcoh, Pinc, Pvc, Pnvc] = pcc ( f, W, C, coi, sig, Wxy, usenan, phase_t
 %   INPUT:
 %           f:      frequency vector
 %           W:      Wavelet coefficient matrix
-%           C:      Coherence matrix
+%           C:      Coherence matrix (can also be imaginary part of coherency)
 %           coi:    Cone of influence vector
 %           sig:    Significance threshold
 %           Wxy:    Cross-Wavelet coefficient matrix
@@ -29,10 +29,7 @@ if nargin<7; usenan    = false; end
 if nargin<6 && nargout>2
     error('Cannot compute Pvc without Phase matrix!')
 end
-if nargin<6
-    warning('Pcoh also contains volume conducted signals!')
-end
-if nargin<4
+if nargin<5
     sig=0.43;
 end
 
@@ -67,7 +64,7 @@ if nout>3
 end
 
 if nargin<6
-    Ph = phase_thresh+1;
+    Ph = ones(size(C))+phase_thresh;
 else
     Ph = abs(angle(Wxy)/pi*180);
 end
