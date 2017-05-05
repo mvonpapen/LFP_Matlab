@@ -15,10 +15,11 @@ function calc_pow_v2(task)
     phthres = sig_phi_thresh(w0, nsig);
     usenan  = 0; % 1 = take mean only over times where signal is present
     ds      = 5;
-    tag     = 'v3_bip';
+    tag     = 'v4_filt';
     STNact  = 1;
     Nex     = length(LFP_OFF);
     zero    = false; % define volume-conduction by 0°--phthres only (not 180°-phthres--180°)
+    filt    = [45 55; 90 110];
 
 
     %% Calculate spectral powers: total, coherent, incoherent and volume
@@ -67,7 +68,7 @@ function calc_pow_v2(task)
         %% OFF
         % LFP monopolar
         [~,W,coi] = procdata(lfp, 'freq', f, 'w0', w0, ...
-            'filter', [], 'art', art); %'filter', [44 56; 90 110], 
+            'filter', filt, 'art', art);
         [Cs, Wxy, W] = wave_cohere ( W, scale, nsig, ds );
         coi = coi(1:ds:end,:)/nsig;
         [Pcoh, Pinc, Pvc] = pcc ( f, W, Cs, coi, sig, Wxy, usenan, phthres, zero );
@@ -78,11 +79,11 @@ function calc_pow_v2(task)
         % LFP bipolar
         x = lfp(:,combo(:,1))-lfp(:,combo(:,2));
         a = cell(Nbc(i),1);
-        for j=1:Nbc(i);
+        for j=1:Nbc(i)
             a{j} = [art{combo(j,1)}; art{combo(j,2)}];
         end
         [~,~,~,P_bip_off(:,1:Nbc(i),i)] = procdata(x, 'freq', f, 'w0', w0, ...
-            'filter', [], 'art', a);
+            'filter', filt, 'art', a);
                 
 
         %% ON
@@ -96,7 +97,7 @@ function calc_pow_v2(task)
             k = k+1;
         end
         [~,W,coi] = procdata(lfp, 'freq', f, 'w0', w0, ...
-            'filter', [], 'art', art);
+            'filter', filt, 'art', art);
         [Cs, Wxy, W] = wave_cohere ( W, scale, nsig, ds );
         coi = coi(1:ds:end,:)/nsig;
         [Pcoh, Pinc, Pvc] = pcc ( f, W, Cs, coi, sig, Wxy, usenan, phthres, zero );
@@ -107,11 +108,11 @@ function calc_pow_v2(task)
         % LFP bipolar
         x = lfp(:,combo(:,1))-lfp(:,combo(:,2));
         a = cell(Nbc(i),1);
-        for j=1:Nbc(i);
+        for j=1:Nbc(i)
             a{j} = [art{combo(j,1)}; art{combo(j,2)}];
         end
         [~,~,~,P_bip_on(:,1:Nbc(i),i)] = procdata(x, 'freq', f, 'w0', w0, ...
-            'filter', [], 'art', a);
+            'filter', filt, 'art', a);
 
 
     end
@@ -124,7 +125,7 @@ function calc_pow_v2(task)
 
 
     %% Save Variables
-    save(['LFP_pow_' tag '_' task '.mat'], 'BiPolCh', 'Nbc', ...
+    save(['LFP_pow_' tag '_' task '.mat'], 'BiPolCh', 'Nbc', 'filt', ...
         'P_tot_on', 'P_tot_off', 'STNact', 'Nch', 'P_bip_off', 'P_bip_on', ...
         'P_coh_off', 'P_coh_on', 'P_vc_off', 'P_vc_on', 'LFPch', ...
         'task', 'Nex', 'f', 'P_inc_off', 'P_inc_on', 'Patient', ...
