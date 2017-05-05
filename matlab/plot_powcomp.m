@@ -1,6 +1,6 @@
 %% Plots power composition
 
-task = 'hold';
+task = 'rest';
 
 load(['LFP_pow_v3_' task])
 tit = ['Percentage of total signal during ' task];
