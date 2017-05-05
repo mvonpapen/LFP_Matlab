@@ -15,7 +15,7 @@ end
 alpha = 10;
 beta  = 20;
 gamma = 50;
-dt    = 1/2500;
+dt    = t(2)-t(1);
 nt    = length(t);
 
 %% Synthetic time series

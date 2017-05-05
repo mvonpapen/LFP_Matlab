@@ -30,7 +30,7 @@ if nargin<6 && nargout>2
     error('Cannot compute Pvc without Phase matrix!')
 end
 if nargin<5
-    sig=0.43;
+    sig=0.41;
 end
 
 [nf, nt, nx] = size ( W );
@@ -50,7 +50,7 @@ end
 
 % Set phase threshold to determine volume conduction PSD
 if nargin<8
-    phase_thresh = 15;
+    phase_thresh = 15.5;
 end
 
 % Pre-allocate variables

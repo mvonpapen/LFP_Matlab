@@ -4,7 +4,7 @@
 
 fig1 = figure('Papersize', [16 10], 'PaperPosition', [0.75 0.5 14.5 9], ...
         'PaperPositionmode', 'manual', 'Visible', 'on'); 
-fname = 'PSD_synth_IC_p01_ns6_w12_nl3';
+fname = 'PSD_synth_PLI_p05_ns6_w12_nl3';
 
 %% Parameter
 nsig  = 6;
@@ -41,9 +41,9 @@ load(fname)
 %     min([mean(Pvc, 2)'-1e-20; std(Pvc, 0,2)']) ]; %% CHECKEN!
 M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2)]';
 lineprops.col={'k'; 'r'; 'b'};
-E = [ min([mean(Ptot,2)'-1e-20; std(Ptot,0,2)']); ...
-    min([mean(Pinc,2)'-1e-20; std(Pinc,0,2)']);...
-    min([mean(Pcoh,2)'-1e-20; std(Pcoh,0,2)']) ]; %% CHECKEN!
+E = [ min([mean(Ptot,2)'-1e-12; std(Ptot,0,2)']); ...
+    min([mean(Pinc,2)'-1e-12; std(Pinc,0,2)']);...
+    min([mean(Pcoh,2)'-1e-12; std(Pcoh,0,2)']) ]; %% CHECKEN!
 
 mseb(f, M, E, lineprops);
 set(gca, 'Ysca', 'log')
@@ -83,7 +83,7 @@ set(gca, 'Ysca', 'log')
 xlim([1 70])
 xlabel('f [Hz]', 'Interpreter', 'Latex')
 ylabel('PSD [V$^2$/Hz]', 'Interpreter', 'Latex')
-tit_str = ['ImCoh, $p=0.01$, $\omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
+tit_str = ['PLI, $p=0.05$, $\omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
 title(tit_str, 'Interpreter', 'Latex');
 
 % Save and close

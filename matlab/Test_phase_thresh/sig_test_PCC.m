@@ -1,4 +1,5 @@
-%% Test significance of coherence with power law noise for single frequency
+%% Test significance of coherence with power law noise
+
 
 %% Parameter
 w0    = 12;
@@ -8,8 +9,13 @@ dt    = 1/1000;
 f     = 20;
 ntrial= 1000;
 bin   = 0:0.005:1;
-wPLI  = true;
-fnam = ['sig_wPLI_ns' mat2str(nsig) '_w' mat2str(w0) '.mat'];
+
+% Preallocate
+H    = zeros( length(bin), length(nsig) );
+p01  = zeros( length(nsig), 1 );
+p05  = zeros( length(nsig), 1 );
+tmp2 = zeros( 1, nt, ntrial );
+
 
 %% Compute coherence
 fourier_factor = 4*pi/(w0+sqrt(2+w0^2));
@@ -19,7 +25,6 @@ NT   = nt;
 coi  = fourier_factor/sqrt(2)*dt*...
     [1E-5,1:((NT+1)/2-1),fliplr((1:(NT/2-1))),1E-5];
 
-
 for i=1:ntrial
     % White noise
     x = powlawnoise(NT,1);
@@ -27,23 +32,19 @@ for i=1:ntrial
     % Wavelet transform
     W           = waveletlin( x, dt, f, 0, 'MORLET', w0 );
     W(1,:,2)    = waveletlin( y, dt, f, 0, 'MORLET', w0 );
-    Wxy         = squeeze(W(1,:,1).*conj(W(1,:,2)));
-    if wPLI
-        [~,~,~,~,Cohy] = wave_cohere ( W, scale, nsig, 1, dt );
-        ImCo = imag(Cohy(:,:,1,2));
-        PLI  = phase_lag_index( Wxy, scale, nsig, dt, 'wPLI', ImCo );
-    else
-        PLI = phase_lag_index( Wxy, scale, nsig, dt );
-    end
-    tmp(:,i) = squeeze( coi2nan(f, PLI, coi) );
+    tmp         = wave_cohere( W, scale, nsig, 1, dt );
+    tmp2(:,:,i) = coi2nan(f, tmp(:,:,1,2), coi/nsig);
 end
+
 % Histogram
-H   = hist(tmp(:), bin);
+H   = hist(tmp2(:), bin);
 H   = H/sum(H);
 id1 = find(cumsum(H)>0.99,1,'first');
 id5 = find(cumsum(H)>0.95,1,'first');
 p01 = bin(id1);
 p05 = bin(id5);
 
-save(fnam, 'H', 'bin', 'p01', 'p05', ...
-    'id1', 'id5', 'PLI', 'f', 'dt', 'w0', 'nsig', 'ntrial', 'nt')
+
+%% Save
+save('sig_PCC_ns6_w12_nl3.mat', 'H', 'bin', 'p01', 'p05', ...
+    'id1', 'id5', 'f', 'dt', 'w0', 'nsig', 'ntrial', 'nt')

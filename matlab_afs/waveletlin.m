@@ -93,7 +93,7 @@
 %  E-mail: torrence@ucar.edu              E-mail: gpc@cdc.noaa.gov
 %----------------------------------------------------------------------------
 
-function [wave,period,scale,coi,k] = wavelet_freq(Y,dt,freq,pad,mother,param)
+function [wave,period,scale,coi,k] = waveletlin(Y,dt,freq,pad,mother,param)
 
 
 if (nargin < 6), param = -1; end
