@@ -1,6 +1,5 @@
 %% Test significance of coherence with power law noise
 
-
 %% Parameter
 w0    = 12;
 nsig  = 6;

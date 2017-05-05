@@ -4,12 +4,13 @@
 w0    = 12;
 nsig  = 6;
 nt    = 2.^15;
-dt    = 1/1000;
+dt    = 1/2500;
 f     = 20;
 ntrial= 1000;
 bin   = 0:0.005:1;
-wPLI  = true;
-fnam = ['sig_wPLI_ns' mat2str(nsig) '_w' mat2str(w0) '.mat'];
+wPLI  = false;
+fnam = ['sig_PLI_ns' mat2str(nsig) '_w' mat2str(w0) '_v2.mat'];
+
 
 %% Compute coherence
 fourier_factor = 4*pi/(w0+sqrt(2+w0^2));
@@ -25,16 +26,10 @@ for i=1:ntrial
     x = powlawnoise(NT,1);
     y = powlawnoise(NT,1);
     % Wavelet transform
-    W           = waveletlin( x, dt, f, 0, 'MORLET', w0 );
-    W(1,:,2)    = waveletlin( y, dt, f, 0, 'MORLET', w0 );
+    W           = waveletlin( x, dt, f, 1, 'MORLET', w0 );
+    W(1,:,2)    = waveletlin( y, dt, f, 1, 'MORLET', w0 );
     Wxy         = squeeze(W(1,:,1).*conj(W(1,:,2)));
-    if wPLI
-        [~,~,~,~,Cohy] = wave_cohere ( W, scale, nsig, 1, dt );
-        ImCo = imag(Cohy(:,:,1,2));
-        PLI  = phase_lag_index( Wxy, scale, nsig, dt, 'wPLI', ImCo );
-    else
-        PLI = phase_lag_index( Wxy, scale, nsig, dt );
-    end
+    PLI = phase_lag_index( imag(Wxy), scale, nsig, dt, 'wPLI', wPLI );
     tmp(:,i) = squeeze( coi2nan(f, PLI, coi) );
 end
 % Histogram

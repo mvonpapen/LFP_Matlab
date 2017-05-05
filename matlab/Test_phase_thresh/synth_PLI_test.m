@@ -3,6 +3,8 @@ nsig  = 6;
 w0    = 12;
 sig   = 0.55; %p01=0.70, p05=0.55 (see 'sig_PLI_ns6_w12.mat')
 N     = 1000;
+wPLI  = true;
+fname = 'PSD_synth_wPLI_p05_ns6_w12_nl3.mat';
 
 % Parameters for synth data
 alpha = 10;  %coh
@@ -53,7 +55,7 @@ for j=1:N
     [~, W, coi, tmp] = procdata([x y], 'freq', f, 'w0', w0, 'dt', dt);
     Ptot(:,j)        = tmp(:,1);
     Wxy              = squeeze(W(:,:,1).*conj(W(:,:,2)));
-    PLI              = phase_lag_index(Wxy, scale, nsig, dt);
+    PLI              = phase_lag_index(imag(Wxy), scale, nsig, dt, 'wPLI', wPLI);
     [a, b]           = pcc ( f, W, repmat(PLI,1,1,2,2), coi, sig );
     Pcoh(:,j)        = a(:,1,2);
     Pinc(:,j)        = b(:,1,2);
@@ -69,6 +71,6 @@ for j=1:N
 end
 
 
-save('PSD_synth_PLI_p05_ns6_w12_nl3.mat', 'A', 'N', 'sig', ...
+save(fname, 'A', 'N', 'sig', ...
     'Pcoh', 'Pinc', 'Ptot', 'alpha', 'beta', 'gamma', 'nt', ...
     'coi', 'f', 'FPR', 'TPR', 'w0', 'nsig', 'nl', 'dp')
