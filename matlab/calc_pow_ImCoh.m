@@ -17,6 +17,7 @@ function calc_pow_ImCoh(task)
     STNact  = 1;
     Nex     = length(LFP_OFF);
     pval    = 0.01;
+    filt    = [45 55; 90 110];
 
 
     %% Calculate spectral powers: total, coherent, incoherent and volume
@@ -54,7 +55,7 @@ function calc_pow_ImCoh(task)
         %% OFF
         % LFP monopolar
         [~,W,coi] = procdata(lfp, 'freq', f, 'w0', w0, ...
-            'filter', [], 'art', art); %'filter', [44 56; 90 110], 
+            'filter', filt, 'art', art);
         coi = coi(1:ds:end,:)/nsig;
         [~, ~, W, ~, Cohy] = wave_cohere ( W, scale, nsig, ds );
         ICthreshd = sig_ImCoh(Cohy, pval, nsig);
@@ -74,7 +75,7 @@ function calc_pow_ImCoh(task)
             k = k+1;
         end
         [~,W,coi] = procdata(lfp, 'freq', f, 'w0', w0, ...
-            'filter', [], 'art', art);
+            'filter', filt, 'art', art);
         coi = coi(1:ds:end,:)/nsig;
         [~, ~, W, ~, Cohy] = wave_cohere ( W, scale, nsig, ds );
         ICthreshd = sig_ImCoh(Cohy, pval, nsig);
@@ -94,7 +95,7 @@ function calc_pow_ImCoh(task)
 
     %% Save Variables
     save(['LFP_pow_IC_p01_' tag '_' task '.mat'], ...
-        'P_tot_on', 'P_tot_off', 'STNact', 'Nch', ...
+        'P_tot_on', 'P_tot_off', 'STNact', 'Nch', 'filt', ...
         'P_coh_off', 'P_coh_on', 'LFPch', 'pval', ...
         'task', 'Nex', 'f', 'P_inc_off', 'P_inc_on', 'Patient', ...
         'LFPact', 'w0', 'scale', 'nsig', 'ds', 'rigor')

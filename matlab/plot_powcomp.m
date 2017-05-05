@@ -2,7 +2,7 @@
 
 task = 'rest';
 
-load(['LFP_pow_v3_' task])
+load(['LFP_pow_v4_filt_' task])
 tit = ['Percentage of total signal during ' task];
 col = 1;
 STNact = 1;

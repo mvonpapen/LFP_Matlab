@@ -1,12 +1,12 @@
 %% Function to compute PLI from wavelet cross spectrum
 
-function PLI = phase_lag_index ( Wxy, scale, nsig, dt, varargin )
+function PLI = phase_lag_index ( Im, scale, nsig, dt, varargin )
 
 % input imaginary part of coherency matrix for wPLI [Vinck et al., 2011]
-args = struct('wPLI', []);
+args = struct('wPLI', false);
         
 args = parseArgs(varargin,args);
-ImCo = args.wPLI;
+wPLI = args.wPLI;
 
 if nargin<4
     dt = 1/2456;
@@ -15,17 +15,20 @@ if nargin<3
     nsig = 6;
 end
 
-
-% Extract phases
-Ph = angle(Wxy)/pi*180;
-
 % Average sign of phases over time
-if isempty(ImCo)
-    Ph_avg = smooth_mat( sign(Ph), dt, nsig*scale );
+if ~wPLI
+    Ph_avg = smooth_mat( sign(Im), dt, nsig*scale );
 else
-    Ph_avg_num   = smooth_mat( abs(ImCo).*sign(ImCo), dt, nsig*scale );
-    Ph_avg_denum = smooth_mat( abs(ImCo), dt, nsig*scale );
-    Ph_avg       = Ph_avg_num./Ph_avg_denum;
+    % biased est
+    Ph_avg_num   = smooth_mat( Im, dt, nsig*scale );
+    Ph_avg_denom = smooth_mat( abs(Im), dt, nsig*scale );
+    Ph_avg       = Ph_avg_num./Ph_avg_denom;
+%     % debiased est (taken from fieldtrip
+%     Im      = imag(Wxy);
+%     outsum  = smooth_mat( Im, dt, nsig*scale );
+%     outsumW = smooth_mat( abs(Im), dt, nsig*scale );
+%     outssq  = smooth_mat( Im.^2, dt, nsig*scale, 'smooth','gauss_square' );
+%     Ph_avg  = (outsum.^2 - outssq)./(outsumW.^2 - outssq);
 end
-
+  
 PLI = abs(Ph_avg);

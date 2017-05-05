@@ -84,7 +84,7 @@ function H = mseb(x,y,errBar,lineProps,transparent)
 
 
 %% Error checking
-error(nargchk(3,5,nargin))
+narginchk(3,5)
 
 % Cheking the y data
 [C, N] = size(y);
