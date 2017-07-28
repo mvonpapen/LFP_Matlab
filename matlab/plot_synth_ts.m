@@ -1,19 +1,19 @@
 %% Plot the outcome of several trials trying to replicate PSD of synthetic time series
 
 %% PCC
-fname = 'PSD_synth_PCC_ns6_w12_nl3_v2';
-load(fname)
-tit_str = ['PCC, $\omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
+% fname = 'PSD_synth_PCC_ns6_w12_nl3_v2';
+% load(fname)
+% tit_str = ['PCC, $\omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
 
 %% IC
-% fname = 'PSD_synth_IC_p05_ns6_w12_nl3';
+% fname = 'PSD_synth_IC_p01_ns6_w12_nl3';
 % load(fname)
-% tit_str = ['IC, $p=0.05, \omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
+% tit_str = ['IC, $p=0.01, \omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
 
 %% PLI
-% fname = 'PSD_synth_PLI_p05_ns6_w12_nl3';
-% load(fname)
-% tit_str = ['PLI, $p=0.05, \omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
+fname = 'PSD_synth_wPLI_p01_ns6_w12_nl3';
+load(fname)
+tit_str = ['wPLI, $p=0.01, \omega_0=' num2str(w0) ', n_\sigma=' num2str(nsig) '$'];
 
 %%
 
@@ -34,18 +34,18 @@ limy  = [1e-8 1e-6];
 
 
 %% PCC
-M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2) mean(Pvc,2)+1e-19]';
-lineprops.col={'k'; 'r'; 'b'; 'g'};
-E = [ min([mean(Ptot,2)'-1e-20; std(Ptot,0,2)']); ...
-    min([mean(Pinc,2)'-1e-20; std(Pinc,0,2)']);...
-    min([mean(Pcoh,2)'-1e-20; std(Pcoh,0,2)']);...
-    min([mean(Pvc, 2)'-1e-20; std(Pvc, 0,2)']) ]; %% CHECKEN!
+% M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2) mean(Pvc,2)+1e-19]';
+% lineprops.col={'k'; 'r'; 'b'; 'g'};
+% E = [ min([mean(Ptot,2)'-1e-20; std(Ptot,0,2)']); ...
+%     min([mean(Pinc,2)'-1e-20; std(Pinc,0,2)']);...
+%     min([mean(Pcoh,2)'-1e-20; std(Pcoh,0,2)']);...
+%     min([mean(Pvc, 2)'-1e-20; std(Pvc, 0,2)']) ]; %% CHECKEN!
 
 %% IC or PLI
-% M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2)]';
-% lineprops.col={'k'; 'r'; 'b'};
-% E = [ std(Ptot,0,2) std(Pinc,0,2) std(Pcoh,0,2) ]'; %% CHECKEN!
-% E = min(cat(3, E, M-(1e-10)),[],3);
+M = [mean(Ptot,2) mean(Pinc,2) mean(Pcoh,2)]';
+lineprops.col={'k'; 'r'; 'b'};
+E = [ std(Ptot,0,2) std(Pinc,0,2) std(Pcoh,0,2) ]'; %% CHECKEN!
+E = min(cat(3, E, M-(1e-10)),[],3);
 
 %%
 
@@ -73,12 +73,12 @@ clear Psig
 loglog(f,Psig,'k--');
 
 %% PCC
-h = legend('total (sine+noise)', 'incoherent', 'coherent', ...
-    'vol.cond.', 'sine w/o noise');
+% h = legend('total (sine+noise)', 'incoherent', 'coherent', ...
+%     'vol.cond.', 'sine w/o noise');
 
 %% IC or PLI
-% h = legend('total (sine+noise)', 'incoherent', 'coherent', ...
-%     'sine w/o noise');
+h = legend('total (sine+noise)', 'incoherent', 'coherent', ...
+    'sine w/o noise');
 
 %%
 set(h, 'Interpreter', 'Latex');
@@ -92,6 +92,6 @@ ylabel('PSD [V$^2$/Hz]', 'Interpreter', 'Latex')
 title(tit_str, 'Interpreter', 'Latex');
 
 % Save and close
-print(fig1, fname, '-depsc')
+% print(fig1, fname, '-depsc')
 % close(fig1)
 set(fig1, 'Visi', 'On')

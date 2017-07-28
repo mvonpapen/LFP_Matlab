@@ -69,7 +69,7 @@ end
 
 
 %% Filter time series with two-side butterworth filter order 5
-if args.order ~= 0 && ~any(isnan(data(:))) && ~isempty(args.filter);
+if args.order ~= 0 && ~any(isnan(data(:))) && ~isempty(args.filter)
     F = args.filter;
     for i = 1:nch
         for j = 1:size(F,1)
@@ -103,7 +103,7 @@ end
 
 %% Spectral Transormation
 % Fourier Spectrum
-if nargout > 4 && ~any(isnan(data(:)));
+if nargout > 4 && ~any(isnan(data(:)))
     [Pf,ff] = psdf( data, args.dt );
 end
 

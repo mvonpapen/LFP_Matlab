@@ -51,6 +51,9 @@ switch upper(args.smooth)
     case 'GAUSS'
         F = exp( - 2 * pi^2 * f.^2 * speriod'.^2  ); % = fft of normalized gaussian with std = speriod
         smoWave = ifft(F.*fft(wave'))';
+    case 'GAUSS_SQUARE'
+        F = exp( - 2 * pi^2 * f.^2 * speriod'.^2  ); % needed for phase_lag_index <- outssq
+        smoWave = ifft(F.^2.*fft(wave'))';
     case 'BOX'
         F = sinc( f * speriod' ); % = fft of normalized boxcar with width = speriod
         smoWave = ifft(F.*fft(real(wave')))'+1i*ifft(F.*fft(imag(wave')))';

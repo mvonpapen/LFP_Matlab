@@ -1,10 +1,10 @@
 %% Parameter
 nsig  = 6;
 w0    = 12;
-sig   = 0.55; %p01=0.70, p05=0.55 (see 'sig_PLI_ns6_w12.mat')
+sig   = 0.705; %p01=0.705, p05=0.555 (see 'sig_PLI_ns6_w12.mat')
 N     = 1000;
 wPLI  = true;
-fname = 'PSD_synth_wPLI_p05_ns6_w12_nl3.mat';
+fname = 'PSD_synth_wPLI_p01_ns6_w12_nl3.mat';
 
 % Parameters for synth data
 alpha = 10;  %coh
@@ -70,6 +70,7 @@ for j=1:N
     fprintf('\b\b\b\b\b\b\b\b\b')
 end
 
+fprintf('\n Saving results in \n %s\n', [pwd '\' fname])
 
 save(fname, 'A', 'N', 'sig', ...
     'Pcoh', 'Pinc', 'Ptot', 'alpha', 'beta', 'gamma', 'nt', ...

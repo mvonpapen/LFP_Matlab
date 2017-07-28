@@ -1,16 +1,16 @@
 %%  Plot relative and absolute (percentual) ON-OFF difference of PSDs
 
 
-TASKS = {'hold', 'wrist'};
+TASKS = {'hold', 'fist'};
 fb = [20 30];
 fr_str = '\beta_2';
 cutoff  = 0;
 textlab = {'Inc', 'Coh', 'VC', 'Bip'};
 STNact  = 1;
-tag     = 'v3_bip'; %denotes which file to load
+tag     = 'PCC_v1_filt'; %denotes which file to load
 usemean = false; %false = median
 patmean = false;
-Bonnf   = 16; % 1: no Bonnferroni correction
+Bonnf   = 6; % 1: no Bonnferroni correction
 
 fig1    = figure('Papersize', [7 6], 'PaperPosition', [0.75 0.5 5.5 5], ...
    'PaperPositionmode', 'manual', 'Visible', 'off');
@@ -24,7 +24,7 @@ for ind=1:2
     task = TASKS{ind};
 
     % Take out patients w/o task
-    if strcmp(task, 'wrist')
+    if strcmp(task, 'fist')
         pat1 = [1 2 4 5 7 8];
         pat2 = [1:6];
     elseif strcmp(task, 'hold')

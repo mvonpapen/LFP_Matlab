@@ -2,7 +2,7 @@
 
 nsig  = 6;
 w0    = 12;
-pval  = 0.05;
+pval  = 0.01;
 
 alpha = 10;  %coh
 beta  = 20;  %vc
@@ -73,6 +73,6 @@ for j=1:N
 end
 
 
-save('PSD_synth_IC_p05_ns6_w12_nl3.mat', 'A', 'N', 'pval', ...
+save('PSD_synth_IC_p01_ns6_w12_nl3.mat', 'A', 'N', 'pval', ...
     'Pcoh', 'Pinc', 'Ptot', 'alpha', 'beta', 'gamma', ...
     'coi', 'f', 'FPR', 'TPR', 'w0', 'nsig', 'nl', 'dp')

@@ -11,9 +11,8 @@ function calc_pow_ImCoh(task)
     Nf      = length(f);
     w0      = 12;
     nsig    = 6;
-    sig     = 0.555;
     ds      = 5;
-    tag     = 'v1';
+    tag     = 'v1_filt';
     STNact  = 1;
     Nex     = length(LFP_OFF);
     pval    = 0.01;
@@ -59,7 +58,7 @@ function calc_pow_ImCoh(task)
         coi = coi(1:ds:end,:)/nsig;
         [~, ~, W, ~, Cohy] = wave_cohere ( W, scale, nsig, ds );
         ICthreshd = sig_ImCoh(Cohy, pval, nsig);
-        [Pcoh, Pinc] = pcc ( f, W, ICthreshd, coi, sig );
+        [Pcoh, Pinc] = pcc ( f, W, ICthreshd, coi );
         P_coh_off(:,1:Nch(i),i) = squeeze(nanmean(Pcoh,3));
         P_inc_off(:,1:Nch(i),i) = squeeze(nanmean(Pinc,3));
                 
@@ -79,7 +78,7 @@ function calc_pow_ImCoh(task)
         coi = coi(1:ds:end,:)/nsig;
         [~, ~, W, ~, Cohy] = wave_cohere ( W, scale, nsig, ds );
         ICthreshd = sig_ImCoh(Cohy, pval, nsig);
-        [Pcoh, Pinc] = pcc ( f, W, ICthreshd, coi, sig );
+        [Pcoh, Pinc] = pcc ( f, W, ICthreshd, coi );
         P_coh_on(:,1:Nch(i),i) = squeeze(nanmean(Pcoh,3));
         P_inc_on(:,1:Nch(i),i) = squeeze(nanmean(Pinc,3));
 
@@ -94,7 +93,7 @@ function calc_pow_ImCoh(task)
 
 
     %% Save Variables
-    save(['LFP_pow_IC_p01_' tag '_' task '.mat'], ...
+    save(['/home/papen/LFP_Matlab/matlab/LFP_pow_IC_p01_' tag '_' task '.mat'], ...
         'P_tot_on', 'P_tot_off', 'STNact', 'Nch', 'filt', ...
         'P_coh_off', 'P_coh_on', 'LFPch', 'pval', ...
         'task', 'Nex', 'f', 'P_inc_off', 'P_inc_on', 'Patient', ...

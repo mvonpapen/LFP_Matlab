@@ -1,17 +1,17 @@
 %%  Plot relative and absolute (percentual) ON-OFF difference of PSDs
 
-exp     = 'rest';
+exp     = 'hold';
 textlab = {'\beta_1', '\beta_2'};
 xx      = 1:length(textlab);
 fig1    = figure('PaperSize', [8 7], ...
            'PaperPositionmode', 'manual', 'PaperPosition', [1 0.5 7 6], ...
            'Visible', 'off');
-tag     = 'v3_bip';
+tag     = 'PCC_v1_filt';
 fnam    = ['dPSD_' tag '.eps'];
 STNact  = 1;
 patmean = false;
-difftype = 'rel';
-Bonnf   = 8;
+difftype = 'abs';
+Bonnf   = 6;
 usemean = false; %false = median
 
 
@@ -141,7 +141,7 @@ XX(:,:,1)=dPinc; XX(:,:,2)=dPcoh; XX(:,:,3)=dPvc;
 %     subplot(1,Nb,ii)
 boxPlot(xx, XX, 'showScatter', true, 'groupwidth', 0.7, 'xSpacing', 'x', ...
     'symbolMarker', '+', 'useMean', usemean, ...
-    'showlegend', true, 'grouplabels', {'Incoherent', 'Coherent', 'Vol.-cond.'}, ...
+    'showlegend', false, 'grouplabels', {'Incoherent', 'Coherent', 'Vol.-cond.'}, ...
     'boxcolor', {[1 0.5 0.5], [0.5 0.5 1], [0.5 1 0.5]}, ...
     'LineStyle', '--', 'Linewidth', 0.7, 'MedianColor', 'k', ...
     'ScatterMarker', '.', 'ScatterColor', 'k', ...
@@ -194,41 +194,8 @@ for i=1:Nb
         plot(i-0.25,0.9*limy(2),'*k');
     end
 end
-    
-%     %% Correlation with rigor
-%     rigor = [100 100 80 30 100 50 20 50];
-%     updrs = [38  40  55 41 45  47 30 43];
-%     score = updrs;
-%     switch ii
-%         case 1
-%             x = score;
-%         case 2
-%             x = score([1 2 3 4 5 7 8]);
-%         case 3
-%             x = score([1 2 4 5 7 8]);
-%     end
-%     X = []; X2 =[];
-%     for i=1:length(x);
-%         X  = [X x([i i i])]; 
-%         X2 = [X2 x([i i i i i])]; 
-%     end
-%     
-%     for i=1:Nb
-%         j=~isnan(dP_inc{ii}(:,i));
-%         [CC(1,i,ii), PP(1,i,ii)] = corr(X(j)',dP_inc{ii}(j,i),'type', 'Spearman');
-%     end
-%     for i=1:Nb
-%         j=~isnan(dP_coh{ii}(:,i));
-%         [CC(2,i,ii), PP(2,i,ii)] = corr(X(j)',dP_coh{ii}(j,i),'type', 'Spearman');
-%     end
-%     for i=1:Nb
-%         j=~isnan(dP_vc{ii}(:,i));
-%         [CC(3,i,ii), PP(3,i,ii)] = corr(X(j)',dP_vc{ii}(j,i), 'type', 'Spearman');
-%     end
 
-
-% i = fdr(PP);
-% [i PP(i) CC(i)],
+fdr([sig_inc sig_coh])
 
 set(fig1, 'Visi', 'on')
 % print(fig1, fnam, '-depsc')
