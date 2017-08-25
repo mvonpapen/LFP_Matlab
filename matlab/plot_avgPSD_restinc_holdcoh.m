@@ -1,67 +1,79 @@
 % Plots two subplots. 1st: incoherent signal during rest OFF/ON, 
 %                     2nd: coherent signal during hold OFF/ON
 
-
-task = 'hold';
-fnam   = ['avg_psd_' task '_coh_v1.eps'];
+fignam  = ['avg_psd_restinc_holdcoh_v2'];
 fnamPCC = 'LFP_pow_PCC_v1_filt_';
-fnamIC  = 'LFP_pow_IC_p01_v1_filt_';
-fnamPLI = 'LFP_pow_wPLI_p01_v1_filt_';
-load([fnamPCC task])
-
-%% Set variables and parameters
-Mtot = zeros(length(f), 2);
-Mpcc = zeros(length(f), 2);
-Mic  = zeros(length(f), 2);
-Mpli = zeros(length(f), 2);
 
 
-fig = figure('Papersize', [7 6], 'PaperPosition', [0.75 0.5 12.5 5], ...
-   'PaperPositionmode', 'manual', 'Visible', 'on');
+fig = figure('Papersize', [20 9], 'PaperPosition', [0.75 0.5 18.5 8], ...
+   'PaperPositionmode', 'manual', 'Visible', 'off');
 
 %% Load data and average
-load([fnamPCC task '.mat']);
-Mtot(:,:) = [nanmean(P_tot_off(:,:),2) nanmean(P_tot_on(:,:),2)  ];
-Mpcc(:,:)  = [nanmean(P_coh_off(:,:),2) nanmean(P_coh_on(:,:),2)  ];
-load([fnamIC task '.mat'])
-Mic(:,:)   = [nanmean(P_coh_off(:,:),2) nanmean(P_coh_on(:,:),2)  ];
-load([fnamPLI task '.mat'])
-Mpli(:,:) = [nanmean(P_coh_off(:,:),2) nanmean(P_coh_on(:,:),2)  ];
+load([fnamPCC 'rest.mat']);
+Mtot_rest = [nanmean(P_tot_off(:,:),2) nanmean(P_tot_on(:,:),2)  ]';
+N         = [sum(~isnan(P_tot_off(:,:)),2) sum(~isnan(P_tot_on(:,:)),2)];
+Etot_rest = [ nanstd(P_tot_off(:,:),0,2) nanstd(P_tot_on(:,:),0,2) ]'./sqrt(N');
+Minc_rest  = [nanmean(P_inc_off(:,:),2) nanmean(P_inc_on(:,:),2)  ]';
+N         = [sum(~isnan(P_inc_off(:,:)),2) sum(~isnan(P_inc_on(:,:)),2)];
+Einc_rest = [ nanstd(P_inc_off(:,:),0,2) nanstd(P_inc_on(:,:),0,2) ]'./sqrt(N');
+load([fnamPCC 'hold.mat'])
+Mtot_hold = [nanmean(P_tot_off(:,:),2) nanmean(P_tot_on(:,:),2)  ]';
+N         = [sum(~isnan(P_tot_off(:,:)),2) sum(~isnan(P_tot_on(:,:)),2)];
+Etot_hold = [ nanstd(P_tot_off(:,:),0,2) nanstd(P_tot_on(:,:),0,2) ]'./sqrt(N');
+Mcoh_hold   = [nanmean(P_coh_off(:,:),2) nanmean(P_coh_on(:,:),2)  ]';
+N         = [sum(~isnan(P_coh_off(:,:)),2) sum(~isnan(P_coh_on(:,:)),2)];
+Ecoh_hold = [ nanstd(P_coh_off(:,:),0,2) nanstd(P_coh_on(:,:),0,2) ]'./sqrt(N');
      
         
-%% PLOT
-h = semilogy(f, Mtot);
+%% MSEB PLOTS
+clear lineprops
+subplot(1,2,1)
+lineprops.col={'k'; [0.7 0.7 0.7]};
+% lineprops.edgestyle='-';
+mseb(f, Mtot_rest, Etot_rest, lineprops);
 hold on
-set(h(1), 'color', 'k')
-set(h(2), 'color', [0.5 0.5 0.5])
-h = semilogy(f, Mpcc);
-set(h(1), 'color', 'b')
-set(h(2), 'color', [0.5 0.5 1])
-h = semilogy(f, Mic);
-set(h(1), 'color', 'b', 'linestyle', '--')
-set(h(2), 'color', [0.5 0.5 1], 'linestyle', '--')
-h = semilogy(f, Mpli);
-set(h(1), 'color', 'b', 'linestyle', '-.')
-set(h(2), 'color', [0.5 0.5 1], 'linestyle', '-.')
+
+lineprops.col={'r'; [1 0.7 0.7]};
+Einc_rest = min(cat(3, Einc_rest, Minc_rest-(1e-10)),[],3);
+Einc_rest(Minc_rest-(1e-10)-Einc_rest<=0) = NaN;
+% lineprops.edgestyle='-';
+mseb(f, Minc_rest, Einc_rest, lineprops, 0);
+set(gca, 'YSca', 'log')
 xlabel('f [Hz]', 'Interp', 'Latex')
 ylabel('PSD [V$^2$/Hz]', 'Interp', 'Latex')
-
 h = legend('$P_\mathrm{tot}$(OFF)', '$P_\mathrm{tot}$(ON)', ...
-           '$P_\mathrm{coh,pcc}$(OFF)', '$P_\mathrm{coh,pcc}$(ON)', ...
-           '$P_\mathrm{coh,ic}$(OFF)', '$P_\mathrm{coh,ic}$(ON)', ...
-           '$P_\mathrm{coh,pli}$(OFF)', '$P_\mathrm{coh,pli}$(ON)');
+           '$P_\mathrm{inc}$(OFF)', '$P_\mathrm{inc}$(ON)');
 set(h, 'Interp', 'Latex')
 xlim([1 45])
 ylim([1e-9 4e-6])
-title(['Average PSD during ' task])
+title('Average PSD during rest', 'Interp', 'Latex')
 
-% % Estimate significance with signrank
-% PcohON = P_coh_on(:,:); PcohOFF = P_coh_off(:,:);
-% for i=1:length(f); p(i) = signrank(PcohOFF(i,:)-PcohON(i,:)); end
-% f(p<0.05)
-% % PincON = P_inc_on(:,:); PincOFF = P_inc_off(:,:);
-% % for i=1:length(f); p(i) = signrank(PincOFF(i,:)-PincON(i,:)); end
-% % f(p<0.05)
-% hold all
-% plot([13 21], [1 1]*5e-7, 'r-', 'linewidth', 2)
-% plot(17, 6e-7, 'r*', 'markersize', 5)
+
+clear lineprops
+subplot(1,2,2)
+lineprops.col={'k'; [0.7 0.7 0.7]};
+% lineprops.edgestyle='-';
+mseb(f, Mtot_hold, Etot_hold, lineprops, 0);
+hold on
+
+lineprops.col={'b'; [0.7 0.7 1]};
+Einc_rest = min(cat(3, Ecoh_hold, Mcoh_hold-(1e-10)),[],3);
+Einc_rest(Minc_rest-(1e-10)-Einc_rest<=0) = NaN;
+% lineprops.edgestyle='-';
+mseb(f, Mcoh_hold, Ecoh_hold, lineprops, 0);
+set(gca, 'YSca', 'log')
+xlabel('f [Hz]', 'Interp', 'Latex')
+ylabel('PSD [V$^2$/Hz]', 'Interp', 'Latex')
+h = legend('$P_\mathrm{tot}$(OFF)', '$P_\mathrm{tot}$(ON)', ...
+           '$P_\mathrm{coh}$(OFF)', '$P_\mathrm{coh}$(ON)');
+set(h, 'Interp', 'Latex')
+xlim([1 45])
+ylim([1e-9 4e-6])
+title('Average PSD during hold', 'Interp', 'Latex')
+
+
+
+%% Save figure
+print(fig, [fignam '.eps'], '-depsc')
+saveas(fig, [fignam, '.fig'])
+close(fig)

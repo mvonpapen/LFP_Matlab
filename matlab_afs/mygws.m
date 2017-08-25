@@ -3,7 +3,7 @@
 function [Pw, fw, E]=mygws(W,coi,f,dt,dj)
 
 if nargin<5; dj=0; end
-if nargin<4; dt=1/2500; end
+if nargin<4; dt=1/2456; end
 
 
 %% Calculate energy

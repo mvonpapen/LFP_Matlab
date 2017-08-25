@@ -61,6 +61,7 @@ dt = args.dt;
 if nargout > 1
     W = NaN(m,n,nch);
     Pw = NaN(m,nch);
+    coi = NaN(n,nch);
 end
 
 if nch == 1 && ~iscell(arts)
@@ -110,9 +111,6 @@ end
 
 % Wavelet Transform
 if nargout > 1
-    W = NaN(m,n,nch);
-    Pw = NaN(m,nch);
-    coi = NaN(n,nch);
     for i = 1:nch
         [W(:,:,i),~,~,coi(:,i)] = waveletlin(data(:,i),dt,f,1,'MORLET',w0);
         if ~isempty(arts)

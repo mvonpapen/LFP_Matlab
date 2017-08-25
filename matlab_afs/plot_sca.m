@@ -84,8 +84,8 @@ colormap('jet')
 hold all
 plot(t,1./coi,'k','linew',1);
 if ~isempty(args.interval)
-    plot(args.interval(1)*[1 1],minmax(f),'--k')
-    plot(args.interval(2)*[1 1],minmax(f),'--k')
+    plot(args.interval(1)*[1 1],[min(f) max(f)],'--k')
+    plot(args.interval(2)*[1 1],[min(f) max(f)],'--k')
 end
 
 %% Set axis
@@ -94,7 +94,7 @@ if linear == 0
     set(gca,'YScale','log');
 end
 set(gca,'TickDir','out')
-xlim(minmax(t))
-ylim(minmax(f))
+xlim([min(t) max(t)])
+ylim([min(f) max(f)])
 xlabel('Time [s]')
 ylabel('f [Hz]')
