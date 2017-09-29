@@ -46,7 +46,7 @@ for ii = 1:3
 
     % Normalized absolute differences of PSDs
 %     for i=1:length(Patient)
-%         tmp(i)=strcmp(Patient{i},'AUIN_L');
+%         tmp(i)=strcmp(Patient{i},'P01_L');
 %     end
 %     P_tot_off(:,:,tmp) = NaN;
 %     P_bip_off(:,:,tmp) = NaN;

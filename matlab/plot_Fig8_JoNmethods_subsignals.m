@@ -1,5 +1,5 @@
 %% Plots Figure 8 of JoN Methods paper
-%% panel a: LFP A-P of BIMA, b: PCC in time-freq., c: PSD of signals
+%% panel a: LFP A-P of P03, b: PCC in time-freq., c: PSD of signals
 
 
 load data_rest_v3
@@ -109,4 +109,4 @@ title('PSD', 'interp', 'latex')
 h = legend('total', 'vc', 'coh', 'inc');
 set(h, 'interp', 'latex')
 
-saveas(gcf, 'LFP_BIMA_Ap_subsig.fig')
+saveas(gcf, 'LFP_P03_Ap_subsig.fig')

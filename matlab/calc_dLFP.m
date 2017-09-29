@@ -69,7 +69,7 @@ switch LFPtype
         %% Calculate dLFP=x_1-x_2
         i=0;
 
-        % BEMI
+        % P02
         i=i+1;
         D{i,1}(:,1)=(DataOFF{i}(:,1)-DataOFF{i}(:,2)); %CM*
         D{i,1}(:,2)=(DataOFF{i}(:,1)-DataOFF{i}(:,3)); %CA
@@ -80,7 +80,7 @@ switch LFPtype
         flag([1 3],i)=1; %flag denotes non-STN data
         Nch(i)=3;
 
-        % BIMA
+        % P03
         i=i+1;
         D{i,1}(:,1)=(DataOFF{i}(:,1)-DataOFF{i}(:,2)); %CA
         D{i,1}(:,2)=(DataOFF{i}(:,1)-DataOFF{i}(:,3)); %CP*
@@ -97,7 +97,7 @@ switch LFPtype
         flag([2 4 6],i)=1;
         Nch(i)=6;
 
-        % GRFR, no fist available
+        % P04, no fist available
         i=i+1;
         D{i,1}(:,1)=(DataOFF{i}(:,1)-DataOFF{i}(:,2)); %CA
         D{i,1}(:,2)=(DataOFF{i}(:,1)-DataOFF{i}(:,3)); %CM
@@ -107,7 +107,7 @@ switch LFPtype
         D{i,2}(:,3)=(DataON{i}(:,2)-DataON{i}(:,3)); %AM
         Nch(i)=3;
 
-        % REGE
+        % P06
         i=i+1;
         D{i,1}(:,1)=(DataOFF{i}(:,1)-DataOFF{i}(:,2)); %CL
         D{i,1}(:,2)=(DataOFF{i}(:,1)-DataOFF{i}(:,3)); %CA*
@@ -124,7 +124,7 @@ switch LFPtype
         flag([2 4 6],i)=1;
         Nch(i)=6;
 
-        % RIRO
+        % P07
         i=i+1;
         D{i,1}(:,1)=(DataOFF{i}(:,1)-DataOFF{i}(:,2)); %CP
         D{i,1}(:,2)=(DataOFF{i}(:,1)-DataOFF{i}(:,3)); %CM*
@@ -135,7 +135,7 @@ switch LFPtype
         flag([2 3],i)=1;
         Nch(i)=3;
 
-        % SUGI, no fist/hold available
+        % P08, no fist/hold available
         i=i+1;
         D{i,1}(:,1)=(DataOFF{i}(:,1)-DataOFF{i}(:,2)); %CA*
         D{i,1}(:,2)=(DataOFF{i}(:,1)-DataOFF{i}(:,3)); %CM*
@@ -153,7 +153,7 @@ switch LFPtype
         flag(2:5,i)=1;
         Nch(i)=6;
 
-        % MEGE
+        % P05
         i=i+1;
         D{i,1}(:,1)=(DataOFF{i}(:,1)-DataOFF{i}(:,2)); %CM*
         D{i,1}(:,2)=(DataOFF{i}(:,1)-DataOFF{i}(:,3)); %CP*
@@ -166,7 +166,7 @@ switch LFPtype
 
         %% Set Artefacts for these channels
         i=0;
-        % BEMI
+        % P02
         i=i+1;
         A{i,1}{1}=[ArtOFF{i}{1}; ArtOFF{i}{2}];
         A{i,1}{2}=[ArtOFF{i}{1}; ArtOFF{i}{3}];
@@ -175,7 +175,7 @@ switch LFPtype
         A{i,2}{2}=[ArtON{i}{1}; ArtON{i}{3}];
         A{i,2}{3}=[ArtON{i}{2}; ArtON{i}{3}];
 
-        % BIMA
+        % P03
         i=i+1;
         A{i,1}{1}=[ArtOFF{i}{1}; ArtOFF{i}{2}];
         A{i,1}{2}=[ArtOFF{i}{1}; ArtOFF{i}{3}];
@@ -190,7 +190,7 @@ switch LFPtype
         A{i,2}{5}=[ArtON{i}{2}; ArtON{i}{4}];
         A{i,2}{6}=[ArtON{i}{3}; ArtON{i}{4}];
 
-        % GRFR, no fist available
+        % P04, no fist available
         i=i+1;
         A{i,1}{1}=[ArtOFF{i}{1}; ArtOFF{i}{2}];
         A{i,1}{2}=[ArtOFF{i}{1}; ArtOFF{i}{3}];
@@ -199,7 +199,7 @@ switch LFPtype
         A{i,2}{2}=[ArtON{i}{1}; ArtON{i}{3}];
         A{i,2}{3}=[ArtON{i}{2}; ArtON{i}{3}];
 
-        % REGE
+        % P06
         i=i+1;
         A{i,1}{1}=[ArtOFF{i}{1}; ArtOFF{i}{2}];
         A{i,1}{2}=[ArtOFF{i}{1}; ArtOFF{i}{3}];
@@ -214,7 +214,7 @@ switch LFPtype
         A{i,2}{5}=[ArtON{i}{2}; ArtON{i}{4}];
         A{i,2}{6}=[ArtON{i}{3}; ArtON{i}{4}];
 
-        % RIRO
+        % P07
         i=i+1;
         A{i,1}{1}=[ArtOFF{i}{1}; ArtOFF{i}{2}];
         A{i,1}{2}=[ArtOFF{i}{1}; ArtOFF{i}{3}];
@@ -223,7 +223,7 @@ switch LFPtype
         A{i,2}{2}=[ArtON{i}{1}; ArtON{i}{3}];
         A{i,2}{3}=[ArtON{i}{2}; ArtON{i}{3}];
 
-        % SUGI, no hold/fist available
+        % P08, no hold/fist available
         i=i+1;
         A{i,1}{1}=[ArtOFF{i}{1}; ArtOFF{i}{2}];
         A{i,1}{2}=[ArtOFF{i}{1}; ArtOFF{i}{3}];
@@ -238,7 +238,7 @@ switch LFPtype
         A{i,2}{5}=[ArtON{i}{2}; ArtON{i}{4}];
         A{i,2}{6}=[ArtON{i}{3}; ArtON{i}{4}];
 
-        % MEGE
+        % P05
         i=i+1;
         A{i,1}{1}=[ArtOFF{i}{1}; ArtOFF{i}{2}];
         A{i,1}{2}=[ArtOFF{i}{1}; ArtOFF{i}{3}];

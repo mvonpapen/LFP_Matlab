@@ -19,8 +19,8 @@ iend = [5 10 17 25 31 67 40 46 55 66];
 
 nex  = length(i0);
 
-% Reference (stimulating?) electrodes: BEMI-A2, BIMA-C1, GRFR-C1, PECH-C1, 
-% REGE-C1, RIRO-C1, SCUD-M1, SUGI-P2, VAJU-C1, MEGE-P2
+% Reference (stimulating?) electrodes: P02-A2, P03-C1, P04-C1, PECH-C1, 
+% P06-C1, P07-C1, SCUD-M1, P08-P2, VAJU-C1, P05-P2
 % channel numbers disregarding channels with activity=0
 re = [2 1 1 1 1 1 1 2 1 2];
 

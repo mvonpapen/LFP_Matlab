@@ -1,5 +1,5 @@
-Patients = {'BEMI_R', 'BIMA_L', 'GRFR_L', 'REGE_L', ...
-    'RIRO_L', 'SUGI_L', 'AUIN_L', 'MEGE_L'};
+Patients = {'P02_R', 'P03_L', 'P04_L', 'P06_L', ...
+    'P07_L', 'P08_L', 'P01_L', 'P05_L'};
 
 cutoff = 1e-10;
 

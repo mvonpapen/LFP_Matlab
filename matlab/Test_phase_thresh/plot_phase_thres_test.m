@@ -2,7 +2,7 @@
 
 figname = 'synth_pc15_ns6_w12_nl3';
 name = 'synth_pc15_ns6_w12_nl3.mat';
-% name = 'test_pc15_ns3_w12_RIRO_1-2';
+% name = 'test_pc15_ns3_w12_P07_1-2';
 realdata = 0;
 
 % Load

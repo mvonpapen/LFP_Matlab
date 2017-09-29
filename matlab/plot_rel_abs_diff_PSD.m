@@ -34,7 +34,7 @@ fig1 = figure('PaperSize', [20 14], ...
 % Specify patients
 clear tmp
 for i=1:length(Patient)
-    tmp(i)=any(strcmp(Patient{i}, {'AUIN_L', 'BEMI_R', 'GRFR_L'}));
+    tmp(i)=any(strcmp(Patient{i}, {'P01_L', 'P02_R', 'P04_L'}));
 end
 P_tot_off(:,:,tmp) = NaN;
 P_tot_on(:,:,tmp) = NaN;

@@ -8,7 +8,7 @@ function [t, dat, CHlab, art, rigor, ndat, patients, LFPact] = load_dat_from_DAT
 %
 %   experiment:     e.g. Taps, Ruhe, ... (default Ruhe)
 %
-%   patient:        patient name e.g. BEMI_L
+%   patient:        patient name e.g. P02_L
 %
 %   rigor:          find sites with exact rigor value: 0-100
 %

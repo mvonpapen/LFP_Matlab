@@ -61,13 +61,13 @@ for ii = 1:3
 
 %     % Patient-specific actions
 %     for i=1:length(Patient)
-% %         tmp(i)=any(strcmp(Patient{i}, {'AUIN_L', 'BEMI_R', 'GRFR_L'}));
-%         tmp(i)=any(strcmp(Patient{i}, {'BIMA_L', 'MEGE_L', 'AUIN_L', 'BEMI_R', 'GRFR_L'}));
+% %         tmp(i)=any(strcmp(Patient{i}, {'P01_L', 'P02_R', 'P04_L'}));
+%         tmp(i)=any(strcmp(Patient{i}, {'P03_L', 'P05_L', 'P01_L', 'P02_R', 'P04_L'}));
 %     end
 %     P_tot_off(:,:,tmp) = NaN;
 %     P_bip_off(:,:,tmp) = NaN;
 %     
-%     load('pow_coh_BEMI_R', 'P_tot', 'P_inc', 'P_coh', 'P_vc', 'P_bip')
+%     load('pow_coh_P02_R', 'P_tot', 'P_inc', 'P_coh', 'P_vc', 'P_bip')
 %     [~, nch, ~] = size(P_tot);
 %     P_tot_off(:,1:nch,1) = P_tot(:,:,2);
 %     P_inc_off(:,1:nch,1) = P_inc(:,:,2);
@@ -76,7 +76,7 @@ for ii = 1:3
 %     [~, nch, ~] = size(P_bip);
 %     P_bip_off(:,1:nch,1) = P_bip(:,:,2);
 %     if ii==1 || ii==2
-%         load('pow_coh_GRFR_L', 'P_tot', 'P_inc', 'P_coh', 'P_vc', 'P_bip')
+%         load('pow_coh_P04_L', 'P_tot', 'P_inc', 'P_coh', 'P_vc', 'P_bip')
 %         [~, nch, ~] = size(P_tot);
 %         P_tot_off(:,1:nch,3) = P_tot(:,:,2);
 %         P_inc_off(:,1:nch,3) = P_inc(:,:,2);
@@ -93,7 +93,7 @@ for ii = 1:3
 %         case 3
 %             n = 5;
 %     end
-%     load('pow_coh_AUIN_L', 'P_tot', 'P_inc', 'P_coh', 'P_vc', 'P_bip')
+%     load('pow_coh_P01_L', 'P_tot', 'P_inc', 'P_coh', 'P_vc', 'P_bip')
 %     [~, nch, ~] = size(P_tot);
 %     P_tot_off(:,1:nch,n) = P_tot(:,:,2);
 %     P_inc_off(:,1:nch,n) = P_inc(:,:,2);
